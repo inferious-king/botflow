@@ -1,0 +1,40 @@
+name: E5 Bot Flow
+
+on:
+  push:
+    paths:
+      - 'Records/e5.txt'
+      - '.github/workflows/e5.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+       - name: Checkout
+         uses: actions/checkout@main
+       - name: Initialization
+         continue-on-error: true
+         run: |
+           git config --global user.name inferious-king
+           git config --global user.email 95846079+inferious-king@users.noreply.github.com
+       - uses: styfle/cancel-workflow-action@0.9.0
+         name: "Cancel duplicate workflow runs"
+         with:
+            all_but_latest: true
+            access_token: ${{ github.token }}
+       - name: Deploying and Running bot
+         timeout-minutes: 350
+         continue-on-error: true
+         run: |
+           git clone https://adarsh-goel:${{ secrets.GH_TOK }}@github.com/adarsh-goel/e5sub e5 && cd e5 && sudo docker-compose up --build
+       - name: Send Record to Github
+         continue-on-error: true
+         run: |
+          git clone https://github.com/${GITHUB_REPOSITORY} lupo
+          cd lupo || exit 1
+          echo $(( RANDOM - ( RANDOM % RANDOM ) )) > Records/e5.txt
+          git add .
+          git commit -m "Building [$(date -u +%D-%T%P)]"
+          git push -q "https://${{secrets.GH_TOK}}@github.com/${GITHUB_REPOSITORY}" -f  HEAD:main || exit 1
