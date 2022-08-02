@@ -12,7 +12,7 @@ env:
   GitHubName: "inferious-king"
 
 jobs:
-  op bot:
+  op_bot:
     runs-on: ubuntu-20.04
     steps:
       - name: Set Git Configs & Secrets
