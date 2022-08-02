@@ -32,7 +32,6 @@ jobs:
       - name: Gather repo
         run: |
           git clone "https://${{ secrets.GH_TOK }}@github.com/adarsh-goel/otp-bot" bot || exit 1
-          git clone "https://${{ secrets.GH_TOK }}@github.com/adarsh-goel/otp-db" dbase_p || exit 1
           git clone "https://${{ secrets.GH_TOK }}@github.com/adarsh-goel/kenichi-bot-DB" dbase || exit 1
       - name: Install deps
         run: |
